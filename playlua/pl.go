@@ -18,7 +18,6 @@ func PlayLua(s string) {
 
 func main() {
 	editor := js.Global.Get("ace").Call("edit", "editor")
-	//	editor.Call("setValue", `print("hello")`)
 	session := editor.Call("getSession")
 	session.Call("setMode", "ace/mode/lua")
 	cons := jq("#cons")
@@ -31,9 +30,4 @@ func main() {
 	jq("#clean").On("click", func() {
 		cons.SetHtml("")
 	})
-	//println(editor.Call("getValue"))
-
-	//PlayLua(`print("hello")`)
-
-	//js.Global.Get("document").Call("write", "Hello world!")
 }
