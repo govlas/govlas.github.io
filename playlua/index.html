@@ -37,14 +37,14 @@
     console.error = console.debug = console.info = console.log;
 
 
-    //var editor = ace.edit("editor");
-    //editor.setTheme("ace/theme/monokai");
-    //editor.getSession().setMode("ace/mode/lua");
 </script>
 
+
 <script src="ace/ace.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="ace/mode-lua.js" type="text/javascript" charset="utf-8"></script>
-<script src="ace/worker-lua.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    ace.config.set("basePath",'ace');
+</script>
+
 <script src="playlua.js" type="text/javascript"></script>
 
 </body>
