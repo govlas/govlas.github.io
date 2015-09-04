@@ -1,0 +1,57 @@
+#editor {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    bottom: 40%;
+    left: 20px;
+    /*            height: 400px;
+                width: 100%;
+                margin: 10px;*/
+    border: 1px solid #333;
+}
+
+#cons {
+    position: absolute;
+    top: 60%;
+    right: 20px;
+    bottom: 30px;
+    left: 20px;
+    margin-top: 10px;
+    /*margin: 10px;
+    height: 200px;
+    width: 100%;*/
+    border: 1px solid #333;
+    overflow: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    background-color: #393939;
+    color: white;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+}
+
+button{
+    width: 100px;
+    height: 30px;
+
+}
+
+#run {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    /*margin-left: 2%;
+    margin-bottom: 10px;*/
+}
+
+#clean{
+    position: absolute;
+    top: 10px;
+    left: 130px;
+
+}
+
+/* hr{
+     margin: auto;
+     width: 96%;
+ }*/
