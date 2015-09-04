@@ -1,36 +1,85 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Govlas.GitHub.io by govlas</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <title>Govlas.GitHub.io by govlas</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Govlas.GitHub.io</h1>
-        <p></p>
+    <div id="container">
+      <div class="inner">
 
+        <header>
+          <h1>Govlas.GitHub.io</h1>
+          <h2></h2>
+        </header>
 
-        <p class="view"><a href="https://github.com/govlas">View My GitHub Profile</a></p>
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/govlas" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
 
-      </header>
-      <section>
-        <h1>
-<a id="hello" class="anchor" href="#hello" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hello</h1>
-      </section>
-      <footer>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+        <hr>
+
+        <section id="main_content">
+          <h2>
+<a id="lua-vm-in-browser" class="anchor" href="#lua-vm-in-browser" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lua VM in browser</h2>
+
+<p><a href="playlua">Lua playground</a> without server. Written in <a href="http://golang.org">golang</a>.
+It is experiment to convert <a href="https://github.com/yuin/gopher-lua">LuaVM</a> to Javascript with <a href="https://github.com/gopherjs/gopherjs/">GopherJS</a>.</p>
+
+<p><a href="https://github.com/gopherjs/jquery">JQuery port</a> also used.</p>
+
+<div class="highlight highlight-go"><pre><span class="pl-k">package</span> main
+
+<span class="pl-k">import</span> (
+    <span class="pl-s"><span class="pl-pds">"</span>github.com/gopherjs/gopherjs/js<span class="pl-pds">"</span></span>
+    <span class="pl-s"><span class="pl-pds">"</span>github.com/gopherjs/jquery<span class="pl-pds">"</span></span>
+    <span class="pl-s"><span class="pl-pds">"</span>github.com/yuin/gopher-lua<span class="pl-pds">"</span></span>
+)
+
+<span class="pl-k">var</span> <span class="pl-smi">jq</span> = jquery.<span class="pl-smi">NewJQuery</span>
+
+<span class="pl-k">func</span> <span class="pl-en">PlayLua</span>(<span class="pl-v">s</span> <span class="pl-v">string</span>) {
+    <span class="pl-smi">L</span> <span class="pl-k">:=</span> lua.<span class="pl-c1">NewState</span>()
+    <span class="pl-k">defer</span> L.<span class="pl-c1">Close</span>()
+    <span class="pl-k">if</span> <span class="pl-smi">err</span> <span class="pl-k">:=</span> L.<span class="pl-c1">DoString</span>(s); err != <span class="pl-c1">nil</span> {
+        <span class="pl-c1">panic</span>(err)
+    }
+}
+
+<span class="pl-k">func</span> <span class="pl-en">main</span>() {
+    <span class="pl-smi">editor</span> <span class="pl-k">:=</span> js.<span class="pl-smi">Global</span>.<span class="pl-c1">Get</span>(<span class="pl-s"><span class="pl-pds">"</span>ace<span class="pl-pds">"</span></span>).<span class="pl-c1">Call</span>(<span class="pl-s"><span class="pl-pds">"</span>edit<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>editor<span class="pl-pds">"</span></span>)
+    <span class="pl-smi">session</span> <span class="pl-k">:=</span> editor.<span class="pl-c1">Call</span>(<span class="pl-s"><span class="pl-pds">"</span>getSession<span class="pl-pds">"</span></span>)
+    session.<span class="pl-c1">Call</span>(<span class="pl-s"><span class="pl-pds">"</span>setMode<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>ace/mode/lua<span class="pl-pds">"</span></span>)
+    <span class="pl-smi">cons</span> <span class="pl-k">:=</span> <span class="pl-c1">jq</span>(<span class="pl-s"><span class="pl-pds">"</span>#cons<span class="pl-pds">"</span></span>)
+
+    <span class="pl-c1">jq</span>(<span class="pl-s"><span class="pl-pds">"</span>#run<span class="pl-pds">"</span></span>).<span class="pl-c1">On</span>(<span class="pl-s"><span class="pl-pds">"</span>click<span class="pl-pds">"</span></span>, <span class="pl-c1">func</span>() {
+        <span class="pl-c1">PlayLua</span>(editor.<span class="pl-c1">Call</span>(<span class="pl-s"><span class="pl-pds">"</span>getValue<span class="pl-pds">"</span></span>).<span class="pl-c1">String</span>())
+        cons.<span class="pl-c1">SetScrollTop</span>(<span class="pl-k">int</span>(cons.<span class="pl-c1">Prop</span>(<span class="pl-s"><span class="pl-pds">"</span>scrollHeight<span class="pl-pds">"</span></span>).(<span class="pl-k">float64</span>)))
+    })
+
+    <span class="pl-c1">jq</span>(<span class="pl-s"><span class="pl-pds">"</span>#clean<span class="pl-pds">"</span></span>).<span class="pl-c1">On</span>(<span class="pl-s"><span class="pl-pds">"</span>click<span class="pl-pds">"</span></span>, <span class="pl-c1">func</span>() {
+        cons.<span class="pl-c1">SetHtml</span>(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>)
+    })
+}</pre></div>
+
+<p><a href="https://github.com/govlas/govlas.github.io/tree/master/playlua">See other sources</a></p>
+        </section>
+
+        <footer>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
   </body>
 </html>
